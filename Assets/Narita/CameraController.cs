@@ -13,7 +13,8 @@ public class CameraController : MonoBehaviour
         {
             Vector3 targetPosition = _player.position + _offset;
             transform.position = Vector3.SmoothDamp(transform.position, targetPosition, ref velocity, _smoothTime);
-
+            var rotation = Quaternion.LookRotation(_player.transform.position - transform.position);
+            transform.rotation = rotation;
         }
 
         if (_player == null)
