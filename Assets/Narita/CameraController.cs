@@ -2,7 +2,7 @@ using UnityEngine;
 public class CameraController : MonoBehaviour
 {
     [SerializeField] Transform _player;  // プレイヤーのTransform
-    [SerializeField] Vector3 _offset;  // プレイヤーとカメラの相対位置 = 中心に映したいときは使わない
+    [SerializeField] Vector3 _offset = new Vector3(0, 4.11f, -9.67f);  // プレイヤーとカメラの相対位置 = 中心に映したいときは使わない
     [SerializeField] float _smoothTime = 0.3f;  // カメラがプレイヤーを追跡する際のスムーズさの調整用パラメータ
     private Vector3 velocity = Vector3.zero;  // カメラ移動時の速度ベクトル
     // プレイヤー移動後にカメラ移動をさせたいので、LateUpdateを使う
