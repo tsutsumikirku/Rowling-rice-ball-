@@ -50,7 +50,7 @@ public class RiceBallManager : MonoBehaviour
     }
     void Move()
     {
-        _rb.velocity = new Vector3(Input.GetAxisRaw("Horizontal") * _moveSpeed, 0, Input.GetAxisRaw("Vertical") * _moveSpeed);
+        _rb.velocity= new Vector3(Input.GetAxisRaw("Horizontal") * _moveSpeed, 0, Input.GetAxisRaw("Vertical") * _moveSpeed);
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
