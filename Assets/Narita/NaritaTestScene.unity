@@ -540,6 +540,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _moveSpeed: 5
+  _speedUp: 0
+  _speedDown: 0
+  _riceCount: 0
+  _scaleChangeLine: 5
+  _plusScale: {x: 0, y: 0, z: 0}
+  _itemTag: []
 --- !u!1 &1828984666
 GameObject:
   m_ObjectHideFlags: 0
@@ -681,8 +687,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _player: {fileID: 1348624644}
-  _offset: {x: 0, y: 4.11, z: -9.67}
   _smoothTime: 0
+  _cameraradius: 20
+  _camerahigh: 3.59
+  _mousesensivity: 0
 --- !u!1 &2008033845
 GameObject:
   m_ObjectHideFlags: 3
