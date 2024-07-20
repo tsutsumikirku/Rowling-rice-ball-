@@ -23,8 +23,8 @@ public class CameraController : MonoBehaviour
         
         
         float x =20 * Mathf.Cos(th);     
-        float y =20 * Mathf.Sin(th);
-        _offset = new Vector3(x,4, y);
+        float z =20 * Mathf.Sin(th);
+        _offset = new Vector3(x,4, z);
         
         
     }
