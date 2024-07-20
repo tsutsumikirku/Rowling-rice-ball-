@@ -24,6 +24,7 @@ public class Generater : MonoBehaviour
     float raretime;
     void Start()
     {
+        //ゲーム開始時の米の生成をしています
      for(var i =0; i <= _firstGenerateRice; i++)
         {
             Vector3 pos = new Vector3(RandomGenerateSpotX(), 2, RandomGenerateSpotZ());
@@ -33,6 +34,7 @@ public class Generater : MonoBehaviour
     }
     void Update()
     {
+        //それぞれのインターバルが経過すると生成します
         ricetime += Time.deltaTime;
         itemtime += Time.deltaTime;
         raretime += Time.deltaTime;
