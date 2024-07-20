@@ -5,14 +5,14 @@ using UnityEngine;
 public class RiceBallManager : MonoBehaviour
 {
     Rigidbody _rb;
-    [SerializeField] float _moveSpeed;
-    [SerializeField] float _speedUp;
-    [SerializeField] float _speedDown;
-    [SerializeField] int _riceCount;
-    [SerializeField] int _scaleChangeLine = 5;
-    [SerializeField] Vector3 _plusScale;
-    [SerializeField] string[] _itemTag;
-    ItemType _itemType;
+    [SerializeField] float _moveSpeed; //スピード
+    [SerializeField] float _speedUp;　//スピードアップ
+    [SerializeField] float _speedDown;　//スピードダウン
+    [SerializeField] int _riceCount;　//米を拾うたびに増えるカウント
+    [SerializeField] int _scaleChangeLine = 5;　//上のカウントがこれを超えると
+    [SerializeField] Vector3 _plusScale;　//スケールが大きくなる
+    [SerializeField] string[] _itemTag;　//アイテムのタグ.1.スピアップ.2.スピダウン.3.時間停止.4.マグネット.5.米
+    ItemType _itemType;　
     enum ItemType
     {
         speedup,
