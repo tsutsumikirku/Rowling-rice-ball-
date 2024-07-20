@@ -368,7 +368,7 @@ MonoBehaviour:
   - {fileID: 8401241563058948194, guid: dce83dc2c36112c4f8a5fd617bb21b18, type: 3}
   _rareitems:
   - {fileID: 8401241563058948194, guid: dce83dc2c36112c4f8a5fd617bb21b18, type: 3}
-  _riceinterbal: 1
+  _riceinterbal: 0.1
   _iteminterbal: 5
   _rareinterbal: 10
   _maxx: 40
@@ -401,6 +401,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1486403150}
   - component: {fileID: 1486403149}
+  - component: {fileID: 1486403151}
   - component: {fileID: 1486403148}
   - component: {fileID: 1486403147}
   m_Layer: 0
@@ -497,6 +498,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1486403151
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1486403146}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 19ba1a5ae36550f4b86b3999c41ca88f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  distime: 6
 --- !u!1 &1631277336
 GameObject:
   m_ObjectHideFlags: 0
