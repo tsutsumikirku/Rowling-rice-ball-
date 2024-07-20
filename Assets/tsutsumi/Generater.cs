@@ -7,8 +7,7 @@ using UnityEngine.UIElements;
 
 public class Generater : MonoBehaviour
 {
-    // Start is called before the first frame update
-
+   
     [SerializeField] GameObject[] _rice;
     [SerializeField] GameObject[] _items;
     [SerializeField] GameObject[] _rareitems;
@@ -19,22 +18,43 @@ public class Generater : MonoBehaviour
     [SerializeField] float _lowerx;
     [SerializeField] float _maxz;
     [SerializeField] float _lowerz;
+    [SerializeField] int _firstGenerateRice;
     float ricetime;
     float itemtime;
     float raretime;
-
     void Start()
     {
-        
+     for(var i =0; i <= _firstGenerateRice; i++)
+        {
+            Vector3 pos = new Vector3(RandomGenerateSpotX(), 2, RandomGenerateSpotZ());
+            Instantiate(RiceRandom()).transform.position = pos;
+        }       
 
     }
-
-    // Update is called once per frame
     void Update()
     {
         ricetime += Time.deltaTime;
         itemtime += Time.deltaTime;
         raretime += Time.deltaTime;
+        if (ricetime >= _riceinterbal)
+        {
+            Vector3 pos = new Vector3(RandomGenerateSpotX(), 50, RandomGenerateSpotZ());
+            Instantiate(RiceRandom()).transform.position = pos;
+            ricetime = 0;
+        }
+        if(itemtime >= _iteminterbal)
+        {
+            Vector3 pos = new Vector3(RandomGenerateSpotX(), 50, RandomGenerateSpotZ());
+            Instantiate(ItemRandom()).transform.position = pos;
+            itemtime = 0;
+        }
+        if(raretime >= _rareinterbal)
+        {
+            Vector3 pos = new Vector3(RandomGenerateSpotX(), 50, RandomGenerateSpotZ());
+            Instantiate(RareItems()).transform.position = pos;
+            raretime = 0;
+        }
+
     }
     //これらはランダムなゲームオブジェクト型の戻り値を返す関数です
     GameObject RiceRandom()
@@ -51,18 +71,18 @@ public class Generater : MonoBehaviour
     }
     int RandomGenerater(int length)
     {
-        int randomInt = UnityEngine.Random.Range(0, length + 1);
+        int randomInt = UnityEngine.Random.Range(0, length);
         return randomInt;
     }
     //座標のランダム生成関数
     float RandomGenerateSpotX()
     {
-        float randomspot = UnityEngine.Random.Range(_lowerx , _maxx +1);
+        float randomspot = UnityEngine.Random.Range(_lowerx , _maxx);
         return randomspot;
     }
     float RandomGenerateSpotZ()
     {
-        float randomspot  = UnityEngine.Random .Range(_lowerz , _maxz +1);
+        float randomspot  = UnityEngine.Random .Range(_lowerz , _maxz);
         return randomspot;
     }
 }
