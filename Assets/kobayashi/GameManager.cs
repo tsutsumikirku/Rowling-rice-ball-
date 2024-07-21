@@ -16,6 +16,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] int _startTimer;
     [SerializeField] string _resultScene;
     bool _pauseFlg = false;
+    bool _timerStop;
     float _timer;
     Coroutine _fastCoroutine;
     private void Start()
@@ -29,28 +30,32 @@ public class GameManager : MonoBehaviour
     }
     private void Update()
     {
-        if (!_pauseFlg)
+        if (!_pauseFlg)//タイマーが動く条件
         {
-            //タイマー機能
-            if (Mathf.Floor(_timer) <= 0)
-            {
-                GameOver();
-            }
-            else
-            {
-                _timer -= Time.deltaTime;
-                _timerText.text = "残り時間：" + Mathf.Floor(_timer).ToString();
-            }
             //スコアの反映
             _scoreText.text = $"スコア：{_score}";
+            if (!_timerStop)
+            {
+                //タイマー機能
+                if (Mathf.Floor(_timer) <= 0)
+                {
+                    GameOver();
+                }
+                else
+                {
+                    _timer -= Time.deltaTime;
+                    _timerText.text = "残り時間：" + Mathf.Floor(_timer).ToString();
+                }
+            }
         }
         //ポーズの呼び出し
-        if (Input.GetKeyDown(KeyCode.Escape) && _fastCoroutine == null)
+        if (Input.GetKeyDown(KeyCode.Escape))
         {
             PauseResume();
         }
         //デバッグ用
-        if (Input.GetKeyDown(KeyCode.R)) _score++;
+        if (Input.GetKeyDown(KeyCode.P)) _score++;
+        if (Input.GetKeyDown(KeyCode.O)) TimerStartOrStop();
     }
 
     void PauseResume()//ポーズ部分
@@ -70,6 +75,10 @@ public class GameManager : MonoBehaviour
                 pause?.Resume();
             }
         }
+    }
+    void TimerStartOrStop()
+    {
+        _timerStop = !_timerStop;
     }
     void hideObject(bool hide)
     {
