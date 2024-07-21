@@ -76,7 +76,7 @@ public class GameManager : MonoBehaviour
             else if (_pauseFlg)
             {
                 Rigidbody rb = obj.GetComponent<Rigidbody>();
-                if (obj.layer != 5 && _pauseFlg && rb != null)//velocityとそのrigidbodyをリストに格納する        layer=5とはUIが存在するレイヤーのこと
+                if (obj.layer != 5 && rb != null)//velocityとそのrigidbodyをリストに格納する        layer=5とはUIが存在するレイヤーのこと
                 {
                     _stopObject.Add(rb);
                     _stopObjectVelocity.Add(rb.velocity);
