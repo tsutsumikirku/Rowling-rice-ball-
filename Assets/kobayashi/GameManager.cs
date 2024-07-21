@@ -1,13 +1,16 @@
 using System.Collections;
+using System.Collections.Generic;
 using Unity.VisualScripting;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
+using UnityEngine.PlayerLoop;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
     [HideInInspector] public static int _score;
-    [SerializeField,Tooltip("ゲーム開始時のカウントダウンに使うText。nullの場合、カウントダウンがなくなります")] 
+    [SerializeField, Tooltip("ゲーム開始時のカウントダウンに使うText。nullの場合、カウントダウンがなくなります")]
     Text _startTimerText;
     [SerializeField] Text _scoreText;
     [SerializeField] Text _timerText;
@@ -15,17 +18,19 @@ public class GameManager : MonoBehaviour
     [SerializeField] float _timeLimit;
     [SerializeField] int _startTimer;
     [SerializeField] string _resultScene;
+    [SerializeField]List<Vector3> _stopObjectVelocity = new List<Vector3>();
+    [SerializeField]List<Rigidbody> _stopObject = new List<Rigidbody>();
+    float _timer;
+    bool _inGame = true;
     bool _pauseFlg = false;
     bool _timerStop;
-    float _timer;
-    Coroutine _fastCoroutine;
     private void Start()
     {
         _timer = _timeLimit + 1;
         _score = 0;
         if (_startTimerText != null)
         {
-            _fastCoroutine = StartCoroutine(StartCount(_startTimer));
+            StartCoroutine(StartCount(_startTimer));
         }
     }
     private void Update()
@@ -49,7 +54,7 @@ public class GameManager : MonoBehaviour
             }
         }
         //ポーズの呼び出し
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Escape) && _inGame)
         {
             PauseResume();
         }
@@ -66,13 +71,31 @@ public class GameManager : MonoBehaviour
         foreach (var i in obj)
         {
             var pause = i.GetComponent<IPause>();
-            if (_pauseFlg)
+            if (_pauseFlg&& pause!=null)
             {
-                pause?.Pause();
+                pause.Pause();
             }
-            else if (!_pauseFlg)
+            else if (!_pauseFlg && pause != null)
             {
-                pause?.Resume();
+                pause.Resume();
+            }
+            else if(_pauseFlg)
+            {
+                Rigidbody rb= i.GetComponent<Rigidbody>();
+                if (i.layer != 5 && _pauseFlg && rb != null)
+                {
+                    _stopObject.Add(rb);
+                    _stopObjectVelocity.Add(rb.velocity);
+                    rb.constraints = RigidbodyConstraints.FreezePosition;
+                }
+            }
+        }
+        if (!_pauseFlg)
+        {
+            for (int j = 0; j > _stopObject.Count; j++)
+            {
+                _stopObject[j].velocity = _stopObjectVelocity[j];
+                _stopObject[j].constraints = RigidbodyConstraints.None;
             }
         }
     }
@@ -82,13 +105,14 @@ public class GameManager : MonoBehaviour
     }
     void hideObject(bool hide)
     {
-        foreach(var obj in _hideObjectAry)
+        foreach (var obj in _hideObjectAry)
         {
             obj.SetActive(hide);
         }
     }
     IEnumerator StartCount(int time)//ゲーム開始の合図
     {
+        _inGame = false;
         PauseResume();//始めた瞬間にポーズ
         hideObject(false);
         while (true)
@@ -99,6 +123,7 @@ public class GameManager : MonoBehaviour
             {
                 _startTimerText.gameObject.SetActive(false);
                 PauseResume();//コルーチン終了時にポーズ解除
+                _inGame=true;
                 hideObject(true);
                 yield break;
             }
@@ -107,6 +132,6 @@ public class GameManager : MonoBehaviour
     }
     void GameOver()//ゲーム終了時の処理を書く　
     {
-        SceneManager.LoadScene(_resultScene);
+        Debug.Log("ゲーム終了");
     }
 }
