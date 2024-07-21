@@ -13,7 +13,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] Text _timerText;
     [SerializeField, Header("”ñ•\Ž¦‚É‚µ‚½‚¢‚à‚Ì‚ð“ü‚ê‚Ä‚­‚¾‚³‚¢")] GameObject[] _hideObjectAry;
     [SerializeField] float _timeLimit;
-    [SerializeField] float _startTimer;
+    [SerializeField] int _startTimer;
     [SerializeField] string _resultScene;
     bool _pauseFlg = false;
     float _timer;
@@ -24,7 +24,7 @@ public class GameManager : MonoBehaviour
         _score = 0;
         if (_startTimerText != null)
         {
-            _fastCoroutine = StartCoroutine(StartCount(3));
+            _fastCoroutine = StartCoroutine(StartCount(_startTimer));
         }
     }
     private void Update()
