@@ -43,7 +43,7 @@ public class CameraController : MonoBehaviour
         _offset = new Vector3(x,_camerahigh, z);
        
       
-       if(flame > 5)
+       if(flame > 2)
         {
             Cursor.lockState = CursorLockMode.Locked;
             flame = 0;
