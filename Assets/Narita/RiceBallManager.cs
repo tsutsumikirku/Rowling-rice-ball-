@@ -12,7 +12,7 @@ public class RiceBallManager : MonoBehaviour
     [SerializeField] int _scaleChangeLine = 5;　//上のカウントがこれを超えると
     [SerializeField] Vector3 _plusScale;　//スケールが大きくなる
     [SerializeField] string[] _itemTag;　//アイテムのタグ.1.スピアップ.2.スピダウン.3.時間停止.4.マグネット.5.米
-    ItemType _itemType;　
+    ItemType _itemType;
     enum ItemType
     {
         speedup,
@@ -50,7 +50,9 @@ public class RiceBallManager : MonoBehaviour
     }
     void Move()
     {
-        _rb.velocity= new Vector3(Input.GetAxisRaw("Horizontal") * _moveSpeed, 0, Input.GetAxisRaw("Vertical") * _moveSpeed);
+        Vector3 cameraForward = Vector3.Scale(Camera.main.transform.forward, new Vector3(1, 0, 1)).normalized;
+        Vector3 moveForward = cameraForward * Input.GetAxisRaw("Vertical") + Camera.main.transform.right * Input.GetAxisRaw("Horizontal");
+        _rb.velocity = moveForward * _moveSpeed + new Vector3(0, _rb.velocity.y, 0);
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -82,6 +84,6 @@ public class RiceBallManager : MonoBehaviour
                 transform.localScale += _plusScale;
             }
         }
-        
+
     }
 }
