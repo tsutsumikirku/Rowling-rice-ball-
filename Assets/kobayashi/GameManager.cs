@@ -1,10 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
-using UnityEngine.PlayerLoop;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
@@ -18,8 +14,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] float _timeLimit;
     [SerializeField] int _startTimer;
     [SerializeField] string _resultScene;
-    [SerializeField]List<Vector3> _stopObjectVelocity = new List<Vector3>();
-    [SerializeField]List<Rigidbody> _stopObject = new List<Rigidbody>();
+    [SerializeField] List<Vector3> _stopObjectVelocity = new List<Vector3>();
+    [SerializeField] List<Rigidbody> _stopObject = new List<Rigidbody>();
     float _timer;
     bool _inGame = true;
     bool _pauseFlg = false;
@@ -62,7 +58,6 @@ public class GameManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.P)) _score++;
         if (Input.GetKeyDown(KeyCode.O)) TimerStartOrStop();
     }
-
     void PauseResume()//ポーズ部分
     {
         _pauseFlg = !_pauseFlg;
@@ -71,7 +66,7 @@ public class GameManager : MonoBehaviour
         foreach (var i in obj)
         {
             var pause = i.GetComponent<IPause>();
-            if (_pauseFlg&& pause!=null)
+            if (_pauseFlg && pause != null)
             {
                 pause.Pause();
             }
@@ -79,9 +74,9 @@ public class GameManager : MonoBehaviour
             {
                 pause.Resume();
             }
-            else if(_pauseFlg)
+            else if (_pauseFlg)
             {
-                Rigidbody rb= i.GetComponent<Rigidbody>();
+                Rigidbody rb = i.GetComponent<Rigidbody>();
                 if (i.layer != 5 && _pauseFlg && rb != null)
                 {
                     _stopObject.Add(rb);
@@ -92,11 +87,16 @@ public class GameManager : MonoBehaviour
         }
         if (!_pauseFlg)
         {
-            for (int j = 0; j > _stopObject.Count; j++)
+            for (int j = 0; j < _stopObject.Count; j++)
             {
-                _stopObject[j].velocity = _stopObjectVelocity[j];
-                _stopObject[j].constraints = RigidbodyConstraints.None;
+                if (_stopObject[j] != null)
+                {
+                    _stopObject[j].constraints = RigidbodyConstraints.None;
+                    _stopObject[j].velocity = _stopObjectVelocity[j];
+                }
             }
+            _stopObject.Clear();
+            _stopObjectVelocity.Clear();
         }
     }
     void TimerStartOrStop()
@@ -123,7 +123,7 @@ public class GameManager : MonoBehaviour
             {
                 _startTimerText.gameObject.SetActive(false);
                 PauseResume();//コルーチン終了時にポーズ解除
-                _inGame=true;
+                _inGame = true;
                 hideObject(true);
                 yield break;
             }
