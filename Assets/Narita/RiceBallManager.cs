@@ -82,6 +82,7 @@ public class RiceBallManager : MonoBehaviour
             if (_riceCount >= _scaleChangeLine)
             {
                 transform.localScale += _plusScale;
+                _riceCount = 0;
             }
         }
 
