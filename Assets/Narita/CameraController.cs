@@ -9,25 +9,13 @@ public class CameraController : MonoBehaviour
     private Vector3 velocity = Vector3.zero;  // カメラ移動時の速度ベクトル
     float th;
     float mousePos;
-    float mousex;
-    float mousedeltax;
-    float flame;
     Vector3 _offset;
-    Vector3 cycle;
-
-
-
-
-
    //堤 伎六作シネマシンを使わずにカメラ移動
     private void Update()
     {
-        flame += 1; 
-        Cursor.lockState = CursorLockMode.None;
-
+        Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         mousePos= Input.GetAxis("Mouse X");
-      
         if(_mousesensivity >= 0.1f)
         {
             th += mousePos / _mousesensivity;
@@ -37,19 +25,8 @@ public class CameraController : MonoBehaviour
             th += mousePos;
         }
         float x =_cameraradius * Mathf.Cos(th);
-        float z = _cameraradius * Mathf .Sin(th);
-
-
+        float z =_cameraradius * Mathf.Sin(th);
         _offset = new Vector3(x,_camerahigh, z);
-       
-      
-       if(flame > 2)
-        {
-            Cursor.lockState = CursorLockMode.Locked;
-            flame = 0;
-        }
-        
-
     }
     // プレイヤー移動後にカメラ移動をさせたいので、LateUpdateを使う
     void LateUpdate()

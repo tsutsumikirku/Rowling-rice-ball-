@@ -8,12 +8,12 @@ public class ObjectTimeDelete : MonoBehaviour
     [SerializeField] float distime = 0.1f;
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.tag == "Player")
+        if (collision.gameObject.tag != "Player")
         {
+            Destroy(collision.gameObject, distime);
         }
-        else
-        {
-            Destroy(collision.gameObject,distime);
-        }
+      
+          
+       
     }
 }
