@@ -231,6 +231,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _timeLimit: 30
+  _resultScene: tsutsumi
   _scoreText: {fileID: 741493103}
   _timerText: {fileID: 64243133}
 --- !u!4 &669439622
