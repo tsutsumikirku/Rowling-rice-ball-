@@ -14,8 +14,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] float _timeLimit;
     [SerializeField] int _startTimer;
     [SerializeField] string _resultScene;
-    [SerializeField] List<Vector3> _stopObjectVelocity = new List<Vector3>();
-    [SerializeField] List<Rigidbody> _stopObject = new List<Rigidbody>();
+    List<Vector3> _stopObjectVelocity = new List<Vector3>();
+    List<Rigidbody> _stopObject = new List<Rigidbody>();
     float _timer;
     bool _inGame = true;
     bool _pauseFlg = false;
@@ -58,14 +58,13 @@ public class GameManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.P)) _score++;
         if (Input.GetKeyDown(KeyCode.O)) TimerStartOrStop();
     }
-    void PauseResume()//ポーズ部分
+    void PauseResume()//ポーズ部分 
     {
         _pauseFlg = !_pauseFlg;
-        var obj = FindObjectsOfType<GameObject>();
-        Debug.Log("Pause or Resume");
-        foreach (var i in obj)
+        var i = FindObjectsOfType<GameObject>();
+        foreach (var obj in i)
         {
-            var pause = i.GetComponent<IPause>();
+            var pause = obj.GetComponent<IPause>();
             if (_pauseFlg && pause != null)
             {
                 pause.Pause();
@@ -76,18 +75,18 @@ public class GameManager : MonoBehaviour
             }
             else if (_pauseFlg)
             {
-                Rigidbody rb = i.GetComponent<Rigidbody>();
-                if (i.layer != 5 && _pauseFlg && rb != null)
+                Rigidbody rb = obj.GetComponent<Rigidbody>();
+                if (obj.layer != 5 && _pauseFlg && rb != null)//velocityとそのrigidbodyをリストに格納する        layer=5とはUIが存在するレイヤーのこと
                 {
                     _stopObject.Add(rb);
                     _stopObjectVelocity.Add(rb.velocity);
-                    rb.constraints = RigidbodyConstraints.FreezePosition;
+                    rb.constraints = RigidbodyConstraints.FreezePosition;   //動きを止める
                 }
             }
         }
         if (!_pauseFlg)
         {
-            for (int j = 0; j < _stopObject.Count; j++)
+            for (int j = 0; j < _stopObject.Count; j++)//保存したvelocityを再始動させる
             {
                 if (_stopObject[j] != null)
                 {
@@ -95,6 +94,7 @@ public class GameManager : MonoBehaviour
                     _stopObject[j].velocity = _stopObjectVelocity[j];
                 }
             }
+            //リストのリセット
             _stopObject.Clear();
             _stopObjectVelocity.Clear();
         }
