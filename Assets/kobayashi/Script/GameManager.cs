@@ -20,6 +20,7 @@ public class GameManager : MonoBehaviour
     bool _inGame = true;
     bool _pauseFlg = false;
     bool _timerStop;
+    Vector3 _stopObjectTest;
     private void Start()
     {
         _timer = _timeLimit + 1;
@@ -122,16 +123,18 @@ public class GameManager : MonoBehaviour
             if (time <= 1)
             {
                 _startTimerText.gameObject.SetActive(false);
-                PauseResume();//コルーチン終了時にポーズ解除
+                PauseResume();  //コルーチン終了時にポーズ解除
                 _inGame = true;
                 hideObject(true);
                 yield break;
             }
             else time--;
         }
+
     }
     void GameOver()//ゲーム終了時の処理を書く　
     {
         Debug.Log("ゲーム終了");
     }
+    
 }
