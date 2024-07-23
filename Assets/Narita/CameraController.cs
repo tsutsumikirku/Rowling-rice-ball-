@@ -18,11 +18,11 @@ public class CameraController : MonoBehaviour
         mousePos= Input.GetAxis("Mouse X");
         if(_mousesensivity >= 0.1f)
         {
-            th += mousePos / _mousesensivity;
+            th -= mousePos / _mousesensivity;
         }
         else
         {
-            th += mousePos;
+            th -= mousePos;
         }
         float x =_cameraradius * Mathf.Cos(th);
         float z =_cameraradius * Mathf.Sin(th);

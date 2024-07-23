@@ -12,8 +12,5 @@ public class ObjectTimeDelete : MonoBehaviour
         {
             Destroy(collision.gameObject, distime);
         }
-      
-          
-       
     }
 }
