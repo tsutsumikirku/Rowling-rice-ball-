@@ -7,18 +7,22 @@ public class ObjectBase : MonoBehaviour,IPause
 {
     public void Pause()
     {
-        throw new System.NotImplementedException();
+        
     }
 
     public void Resume()
     {
-        throw new System.NotImplementedException();
+       
     }
 
     // Start is called before the first frame update
     void DestroyPro(GameObject obj, float deletetime)
         {
-         
+        StartCoroutine("dest");
         }
+    IEnumerator dest()
+    {
+        yield return null;
+    }
 
 }
