@@ -119,8 +119,7 @@ public class GameManager : MonoBehaviour
         while (true)
         {
             _startTimerText.text = time.ToString();
-            yield return new WaitForSeconds(1);
-            if (time <= 1)
+            if (time <= 0)
             {
                 _startTimerText.gameObject.SetActive(false);
                 PauseResume();  //コルーチン終了時にポーズ解除
@@ -128,9 +127,12 @@ public class GameManager : MonoBehaviour
                 hideObject(true);
                 yield break;
             }
-            else time--;
+            else
+            {
+                yield return new WaitForSeconds(1);
+                time--;
+            }
         }
-
     }
     void GameOver()//ゲーム終了時の処理を書く　
     {

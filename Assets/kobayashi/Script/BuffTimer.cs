@@ -26,10 +26,10 @@ public class BuffTimer : MonoBehaviour, IPause
     }
     void IPause.Pause()
     {
-        _animator.SetFloat("TimerSpeed", 0.0f);
+        _animator?.SetFloat("TimerSpeed", 0.0f);
     }
     void IPause.Resume()
     {
-        _animator.SetFloat("TimerSpeed",_buffTime);
+        _animator?.SetFloat("TimerSpeed",_buffTime);
     }
 }
