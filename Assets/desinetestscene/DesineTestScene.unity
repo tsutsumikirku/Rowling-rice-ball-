@@ -467,7 +467,6 @@ MonoBehaviour:
   _smoothTime: 0
   _cameraradius: 1
   _camerahigh: 0.4
-  _mousesensivity: 70
 --- !u!1 &1378887409
 GameObject:
   m_ObjectHideFlags: 0
