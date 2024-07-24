@@ -5,7 +5,7 @@ public class CameraController : MonoBehaviour
     [SerializeField] float _smoothTime = 0.3f;  // カメラがプレイヤーを追跡する際のスムーズさの調整用パラメータ
     [SerializeField] float _cameraradius = 20f;//カメラの回転する半径
     [SerializeField] float _camerahigh;//カメラの高さ
-    [SerializeField] float _mousesensivity;//マウス感度
+    [SerializeField] static float _mousesensivity;//マウス感度
     private Vector3 velocity = Vector3.zero;  // カメラ移動時の速度ベクトル
     float th;
     float mousePos;
