@@ -100,7 +100,7 @@ public class GameManager : MonoBehaviour
             _stopObjectVelocity.Clear();
         }
     }
-    void TimerStartOrStop()
+    public void TimerStartOrStop()
     {
         _timerStop = !_timerStop;
     }
