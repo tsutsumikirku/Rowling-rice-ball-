@@ -40,19 +40,19 @@ public class Generater : MonoBehaviour,IPause
             ricetime += Time.deltaTime;
             itemtime += Time.deltaTime;
             raretime += Time.deltaTime;
-            if (ricetime >= _riceinterbal)
+            if (ricetime >= _riceinterbal && _rice != null)
             {
                 Vector3 pos = new Vector3(RandomGenerateSpotX(), 50, RandomGenerateSpotZ());
                 Instantiate(RiceRandom()).transform.position = pos;
                 ricetime = 0;
             }
-            if (itemtime >= _iteminterbal)
+            if (itemtime >= _iteminterbal && _items != null)
             {
                 Vector3 pos = new Vector3(RandomGenerateSpotX(), 50, RandomGenerateSpotZ());
                 Instantiate(ItemRandom()).transform.position = pos;
                 itemtime = 0;
             }
-            if (raretime >= _rareinterbal)
+            if (raretime >= _rareinterbal && _rareitems != null)
             {
                 Vector3 pos = new Vector3(RandomGenerateSpotX(), 50, RandomGenerateSpotZ());
                 Instantiate(RareItems()).transform.position = pos;
@@ -63,15 +63,36 @@ public class Generater : MonoBehaviour,IPause
     //これらはランダムなゲームオブジェクト型の戻り値を返す関数です
     GameObject RiceRandom()
     {
-        return _rice[RandomGenerater(_rice.Length)];
+        if(_rice != null)
+        {
+            return _rice[RandomGenerater(_rice.Length)];
+        }
+        else
+        {
+            return null;
+        }
     }
     GameObject ItemRandom()
     {
-        return _items[RandomGenerater(_items.Length)];
+        if(_items != null)
+        {
+            return _items[RandomGenerater(_items.Length)];
+        }
+        else
+        {
+            return null;
+        }
     }
     GameObject RareItems()
     {
-        return _rareitems[RandomGenerater(_rareitems.Length)];
+        if(_rareitems != null)
+        {
+            return _rareitems[RandomGenerater(_rareitems.Length)];
+        }
+        else
+        {
+            return null;
+        }
     }
     int RandomGenerater(int length)
     {
