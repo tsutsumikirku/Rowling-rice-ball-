@@ -1,11 +1,14 @@
 using UnityEngine;
+using UnityEngine.UI;
 public class CameraController : MonoBehaviour
 {
     [SerializeField] Transform _player;  // プレイヤーのTransform
-    [SerializeField] float _smoothTime = 0.3f;  // カメラがプレイヤーを追跡する際のスムーズさの調整用パラメータ
+    [SerializeField] float _smoothTime = 0f;  // カメラがプレイヤーを追跡する際のスムーズさの調整用パラメータ
     [SerializeField] float _cameraradius = 20f;//カメラの回転する半径
     [SerializeField] float _camerahigh;//カメラの高さ
-    [SerializeField] float _mousesensivity;//マウス感度
+    [SerializeField] Text _testtext;
+    [SerializeField] bool _test;
+    public static float _mousesensivity = 30f;//マウス感度
     private Vector3 velocity = Vector3.zero;  // カメラ移動時の速度ベクトル
     float th;
     float mousePos;
@@ -13,16 +16,20 @@ public class CameraController : MonoBehaviour
    //堤 伎六作シネマシンを使わずにカメラ移動
     private void Update()
     {
+        if(_testtext && _test)
+        {
+            _testtext.text = _mousesensivity.ToString();
+        }
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         mousePos= Input.GetAxis("Mouse X");
         if(_mousesensivity >= 0.1f)
         {
-            th += mousePos / _mousesensivity;
+            th -= mousePos *( _mousesensivity / 100);
         }
         else
         {
-            th += mousePos;
+            th -= mousePos;
         }
         float x =_cameraradius * Mathf.Cos(th);
         float z =_cameraradius * Mathf.Sin(th);
