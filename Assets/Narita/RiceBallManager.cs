@@ -15,7 +15,7 @@ public class RiceBallManager : MonoBehaviour, IPause
     [SerializeField] string[] _itemTag;　//アイテムのタグ.1.スピアップ.2.スピダウン.3.時間停止.4.マグネット.5.米
     List<GameObject> _items = new List<GameObject>();
     [SerializeField] float _itemSpeed;　//アイテムを吸い寄せるスピード
-    bool _flag;
+    bool _flag = true;
     ItemType _itemType;
     enum ItemType
     {
