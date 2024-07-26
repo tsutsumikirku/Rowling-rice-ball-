@@ -943,7 +943,6 @@ MonoBehaviour:
   _speedUp: 0
   _speedDown: 0
   _defaultScaleChangeLine: 1
-  _scaleChangeLine: 1
   _plusScale: {x: 1, y: 1, z: 1}
   _itemTag:
   - SpeedUp
@@ -952,6 +951,8 @@ MonoBehaviour:
   - 
   - Rice
   _itemSpeed: 1
+  _waitTimeTimerStop: 0
+  _waitTimeMagnet: 0
 --- !u!135 &1348624647
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -1201,7 +1202,7 @@ GameObject:
   - component: {fileID: 2108948588}
   m_Layer: 0
   m_Name: Sphere
-  m_TagString: SpeedDown
+  m_TagString: Rice
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

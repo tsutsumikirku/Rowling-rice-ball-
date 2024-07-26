@@ -18,8 +18,8 @@ public class RiceBallManager : MonoBehaviour, IPause
     bool _flag = true;
     bool _magnet;
     GameManager _gameManager;
-    [SerializeField] float _waitTimeTimerStop;
-    [SerializeField] float _waitTimeMagnet;
+    [SerializeField] float _waitTimeTimerStop = 5;
+    [SerializeField] float _waitTimeMagnet = 5;
     ItemType _itemType;
     enum ItemType
     {
