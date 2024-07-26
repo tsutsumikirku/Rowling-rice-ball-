@@ -8,6 +8,7 @@ TagManager:
   - Rice
   - SpeedUp
   - SpeedDown
+  - Magnet
   layers:
   - Default
   - TransparentFX
