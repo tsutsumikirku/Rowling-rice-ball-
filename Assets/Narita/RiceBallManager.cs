@@ -2,16 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RiceBallManager : MonoBehaviour
+public class RiceBallManager : MonoBehaviour, IPause
 {
     Rigidbody _rb;
     [SerializeField] float _moveSpeed; //スピード
     [SerializeField] float _speedUp;　//スピードアップ
     [SerializeField] float _speedDown;　//スピードダウン
-    [SerializeField] int _riceCount;　//米を拾うたびに増えるカウント
-    [SerializeField] int _scaleChangeLine = 5;　//上のカウントがこれを超えると
+    public static int _riceCount; //米を拾うたびに増えるカウント
+    [SerializeField] int _defaultScaleChangeLine = 5;
+    int _scaleChangeLine;　//上のカウントがこれを超えると
     [SerializeField] Vector3 _plusScale;　//スケールが大きくなる
     [SerializeField] string[] _itemTag;　//アイテムのタグ.1.スピアップ.2.スピダウン.3.時間停止.4.マグネット.5.米
+    List<GameObject> _items = new List<GameObject>();
+    [SerializeField] float _itemSpeed;
+    bool _flag;
     ItemType _itemType;
     enum ItemType
     {
@@ -25,12 +29,16 @@ public class RiceBallManager : MonoBehaviour
     void Start()
     {
         _rb = GetComponent<Rigidbody>();
+        _scaleChangeLine = _defaultScaleChangeLine;
     }
 
     // Update is called once per frame
     void Update()
     {
-        Move();
+        if (_flag)
+        {
+            Move();
+        }
     }
     void GetItem()
     {
@@ -43,6 +51,7 @@ public class RiceBallManager : MonoBehaviour
                 _moveSpeed -= _speedDown;
                 break;
             case ItemType.magnet:
+
                 break;
             case ItemType.timestop:
                 break;
@@ -54,37 +63,69 @@ public class RiceBallManager : MonoBehaviour
         Vector3 moveForward = cameraForward * Input.GetAxisRaw("Vertical") + Camera.main.transform.right * Input.GetAxisRaw("Horizontal");
         _rb.velocity = moveForward * _moveSpeed + new Vector3(0, _rb.velocity.y, 0);
     }
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.tag == _itemTag[0])
+        if (_flag)
         {
-            _itemType = ItemType.speedup;
-            GetItem();
-        }
-        if (collision.gameObject.tag == _itemTag[1])
-        {
-            _itemType = ItemType.speeddown;
-            GetItem();
-        }
-        if (collision.gameObject.tag == _itemTag[2])
-        {
-            _itemType = ItemType.timestop;
-            GetItem();
-        }
-        if (collision.gameObject.tag == _itemTag[3])
-        {
-            _itemType = ItemType.magnet;
-            GetItem();
-        }
-        if (collision.gameObject.tag == _itemTag[4])
-        {
-            _riceCount++;
-            if (_riceCount >= _scaleChangeLine)
+            if (collision.gameObject.tag == _itemTag[0])
             {
-                transform.localScale += _plusScale;
-                _riceCount = 0;
+                _itemType = ItemType.speedup;
+                GetItem();
+            }
+            if (collision.gameObject.tag == _itemTag[1])
+            {
+                _itemType = ItemType.speeddown;
+                GetItem();
+            }
+            if (collision.gameObject.tag == _itemTag[2])
+            {
+                _itemType = ItemType.timestop;
+                GetItem();
+            }
+            if (collision.gameObject.tag == _itemTag[3])
+            {
+                _itemType = ItemType.magnet;
+                GetItem();
+            }
+            if (collision.gameObject.tag == _itemTag[4])
+            {
+                _riceCount++;
+                if (_riceCount >= _scaleChangeLine)
+                {
+                    transform.localScale += _plusScale;
+                    _scaleChangeLine += _defaultScaleChangeLine;
+                    Debug.Log(_scaleChangeLine);
+                }
+            }
+            if (collision.gameObject.tag != "Ground")
+            {
+                Destroy(collision.gameObject);
             }
         }
+    }
+    private void OnTriggerStay(Collider collision)
+    {
+        if (_flag)
+        {
+            if (collision.gameObject.tag != "Ground")
+            {
+                _items.Add(collision.gameObject);
+                foreach (var item in _items)
+                {
+                    var rb = item.GetComponent<Rigidbody>();
+                    rb.AddForce((transform.position - item.transform.position) * _itemSpeed);
+                }
+            }
+        }
+    }
 
+    public void Pause()
+    {
+        _flag = false;
+    }
+
+    public void Resume()
+    {
+        _flag = true;
     }
 }
