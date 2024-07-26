@@ -629,7 +629,7 @@ MonoBehaviour:
   _moveSpeed: 5
   _speedUp: 0
   _speedDown: 0
-  _defaultScaleChangeLine: 1
+  _defaultScaleChangeLine: 5
   _plusScale: {x: 0.5, y: 0.5, z: 0.5}
   _itemTag:
   - SpeedUp
@@ -637,9 +637,9 @@ MonoBehaviour:
   - 
   - Magnet
   - Rice
-  _itemSpeed: 1
+  _itemSpeed: 2
   _waitTimeTimerStop: 5
-  _waitTimeMagnet: 5
+  _waitTimeMagnet: 999
 --- !u!135 &1348624647
 SphereCollider:
   m_ObjectHideFlags: 0

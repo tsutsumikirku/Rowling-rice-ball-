@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEditor.Progress;
 
 public class RiceBallManager : MonoBehaviour, IPause
 {
@@ -13,7 +14,6 @@ public class RiceBallManager : MonoBehaviour, IPause
     [SerializeField] int _defaultScaleChangeLine = 5;//デフォルトのライン
     [SerializeField] Vector3 _plusScale;　//スケールが大きくなる
     [SerializeField] string[] _itemTag;　//アイテムのタグ.1.スピアップ.2.スピダウン.3.時間停止.4.マグネット.5.米
-    List<GameObject> _items = new List<GameObject>();
     [SerializeField] float _itemSpeed;　//アイテムを吸い寄せるスピード
     bool _flag = true;
     bool _magnet;
@@ -121,12 +121,8 @@ public class RiceBallManager : MonoBehaviour, IPause
         {
             if (collision.gameObject.tag != "Ground" && _magnet)
             {
-                _items.Add(collision.gameObject);
-                foreach (var item in _items)
-                {
-                    var rb = item.GetComponent<Rigidbody>();
-                    rb.AddForce((transform.position - item.transform.position) * _itemSpeed);
-                }
+                var rb = collision.gameObject.GetComponent<Rigidbody>();
+                rb.AddForce((transform.position - collision.transform.position) * _itemSpeed);
             }
         }
     }
