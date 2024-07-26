@@ -20,7 +20,6 @@ public class GameManager : MonoBehaviour
     bool _inGame = true;
     bool _pauseFlg = false;
     bool _timerStop;
-    Vector3 _stopObjectTest;
     private void Start()
     {
         _timer = _timeLimit + 1;
@@ -35,9 +34,9 @@ public class GameManager : MonoBehaviour
         if (!_pauseFlg)//タイマーが動く条件
         {
             //スコアの反映
-            _scoreText.text = $"スコア：{_score}";
             if (!_timerStop)
             {
+                _scoreText.text = $"スコア：{_score}";
                 //タイマー機能
                 if (Mathf.Floor(_timer) <= 0)
                 {
@@ -55,9 +54,13 @@ public class GameManager : MonoBehaviour
         {
             PauseResume();
         }
+        
         //デバッグ用
         if (Input.GetKeyDown(KeyCode.P)) _score++;
-        if (Input.GetKeyDown(KeyCode.O)) TimerStartOrStop();
+        //この二つは同時に使う予定がありません。そのため予期せぬエラーが起きますが気にしないでください。
+        //直すのは簡単
+        if (Input.GetKeyDown(KeyCode.O)) ObjectStop();
+        if(Input.GetKeyDown(KeyCode.L))TimerStartOrStop();
     }
     void PauseResume()//ポーズ部分 
     {
@@ -74,7 +77,7 @@ public class GameManager : MonoBehaviour
             {
                 pause.Resume();
             }
-            else if (_pauseFlg)
+            else if (_pauseFlg&& !_timerStop)
             {
                 Rigidbody rb = obj.GetComponent<Rigidbody>();
                 if (obj.layer != 5 && rb != null)//velocityとそのrigidbodyをリストに格納する        layer=5とはUIが存在するレイヤーのこと
@@ -85,7 +88,7 @@ public class GameManager : MonoBehaviour
                 }
             }
         }
-        if (!_pauseFlg)
+        if (!_pauseFlg&&!_timerStop)
         {
             for (int j = 0; j < _stopObject.Count; j++)//保存したvelocityを再始動させる
             {
@@ -100,7 +103,7 @@ public class GameManager : MonoBehaviour
             _stopObjectVelocity.Clear();
         }
     }
-    public void TimerStartOrStop()
+    void TimerStartOrStop()
     {
         _timerStop = !_timerStop;
     }
@@ -134,9 +137,47 @@ public class GameManager : MonoBehaviour
             }
         }
     }
+    public void ObjectStop()
+    {
+        _timerStop = !_timerStop;
+        var i = FindObjectsOfType<GameObject>();
+        foreach (var obj in i)
+        {
+            var pause = obj.GetComponent<IPause>();
+            if (_timerStop &&　obj.gameObject.tag!="Player"&&obj.GetComponent<BuffTimer>()==null)
+            {
+                pause?.Pause();
+                Rigidbody rb = obj.GetComponent<Rigidbody>();
+                if (obj.layer != 5 && rb != null && !_pauseFlg && obj.gameObject.tag != "Player")//velocityとそのrigidbodyをリストに格納する        layer=5とはUIが存在するレイヤーのこと
+                {
+                    _stopObject.Add(rb);
+                    _stopObjectVelocity.Add(rb.velocity);
+                    rb.constraints = RigidbodyConstraints.FreezePosition;   //動きを止める
+                }
+            }
+            else if (!_timerStop && obj.gameObject.tag != "Player")
+            {
+                pause?.Resume();
+            }
+        }
+        if (!_timerStop&&!_pauseFlg)
+        {
+            for (int j = 0; j < _stopObject.Count; j++)//保存したvelocityを再始動させる
+            {
+                if (_stopObject[j] != null)
+                {
+                    _stopObject[j].constraints = RigidbodyConstraints.None;
+                    _stopObject[j].velocity = _stopObjectVelocity[j];
+                }
+            }
+            //リストのリセット
+            _stopObject.Clear();
+            _stopObjectVelocity.Clear();
+        }
+    }
     void GameOver()//ゲーム終了時の処理を書く　
     {
         Debug.Log("ゲーム終了");
     }
-    
+
 }

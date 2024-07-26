@@ -3,14 +3,16 @@ using UnityEngine.UI;
 
 public class BuffTimer : MonoBehaviour, IPause
 {
-    [SerializeField] float _buffTime;
+    [SerializeField, Range(1, 100)] int _buffTime;
+    float _buffTimer;
     Image _image;
     Animator _animator;
     private void Start()
     {
         _image = GetComponent<Image>();
         _animator = GetComponent<Animator>();
-        _animator.SetFloat("TimerSpeed", _buffTime);
+        _buffTimer = _buffTime * 0.01f;
+        _animator?.SetFloat("TimerSpeed", _buffTimer);
         AnimationPlay();
     }
     void Update()
@@ -30,6 +32,6 @@ public class BuffTimer : MonoBehaviour, IPause
     }
     void IPause.Resume()
     {
-        _animator?.SetFloat("TimerSpeed",_buffTime);
+        _animator?.SetFloat("TimerSpeed",_buffTimer);
     }
 }
