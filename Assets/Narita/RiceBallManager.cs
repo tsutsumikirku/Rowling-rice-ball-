@@ -16,6 +16,10 @@ public class RiceBallManager : MonoBehaviour, IPause
     List<GameObject> _items = new List<GameObject>();
     [SerializeField] float _itemSpeed;　//アイテムを吸い寄せるスピード
     bool _flag = true;
+    bool _magnet;
+    GameManager _gameManager;
+    [SerializeField] float _waitTimeTimerStop;
+    [SerializeField] float _waitTimeMagnet;
     ItemType _itemType;
     enum ItemType
     {
@@ -30,6 +34,7 @@ public class RiceBallManager : MonoBehaviour, IPause
     {
         _rb = GetComponent<Rigidbody>();
         _scaleChangeLine = _defaultScaleChangeLine;
+        _gameManager = FindObjectOfType<GameManager>();
     }
 
     // Update is called once per frame
@@ -52,9 +57,12 @@ public class RiceBallManager : MonoBehaviour, IPause
                 _moveSpeed -= _speedDown;
                 break;
             case ItemType.magnet:
-
+                _magnet = true;
+                StartCoroutine(StartMagnet());
                 break;
             case ItemType.timestop:
+                _gameManager.TimerStartOrStop();
+                StartCoroutine(StartTimerStartOrStop());
                 break;
         }
     }
@@ -111,7 +119,7 @@ public class RiceBallManager : MonoBehaviour, IPause
         //コライダーの中にあるアイテムを吸い寄せる
         if (_flag)
         {
-            if (collision.gameObject.tag != "Ground")
+            if (collision.gameObject.tag != "Ground" && _magnet)
             {
                 _items.Add(collision.gameObject);
                 foreach (var item in _items)
@@ -131,5 +139,15 @@ public class RiceBallManager : MonoBehaviour, IPause
     public void Resume()
     {
         _flag = true;
+    }
+    IEnumerator StartTimerStartOrStop()
+    {
+        yield return new WaitForSeconds(_waitTimeTimerStop);
+        _gameManager.TimerStartOrStop();
+    }
+    IEnumerator StartMagnet()
+    {
+        yield return new WaitForSeconds(_waitTimeMagnet);
+        _magnet = false;
     }
 }
