@@ -10,7 +10,7 @@ public class RiceBallManager : MonoBehaviour, IPause
     [SerializeField] float _speedDown;　//スピードダウン
     public static int _riceCount; //米を拾うたびに増えるカウント
     [SerializeField] int _defaultScaleChangeLine = 5;
-    public int _scaleChangeLine;　//上のカウントがこれを超えると
+    int _scaleChangeLine;　//上のカウントがこれを超えると
     [SerializeField] Vector3 _plusScale;　//スケールが大きくなる
     [SerializeField] string[] _itemTag;　//アイテムのタグ.1.スピアップ.2.スピダウン.3.時間停止.4.マグネット.5.米
     List<GameObject> _items = new List<GameObject>();
@@ -94,6 +94,7 @@ public class RiceBallManager : MonoBehaviour, IPause
                 {
                     transform.localScale += _plusScale;
                     _scaleChangeLine += _defaultScaleChangeLine;
+                    Debug.Log(_scaleChangeLine);
                 }
             }
             if (collision.gameObject.tag != "Ground")
