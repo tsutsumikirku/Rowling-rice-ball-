@@ -17,6 +17,7 @@ public class RiceBallManager : MonoBehaviour, IPause
     GameManager _gameManager;
     [SerializeField] float _waitTimeTimerStop = 5;
     [SerializeField] float _waitTimeMagnet = 5;
+    GameObject _magnetObj;
     ItemType _itemType;
     enum ItemType
     {
@@ -32,6 +33,7 @@ public class RiceBallManager : MonoBehaviour, IPause
         _rb = GetComponent<Rigidbody>();
         _scaleChangeLine = _defaultScaleChangeLine;
         _gameManager = FindObjectOfType<GameManager>();
+        _magnetObj = GameObject.Find("MagnetArea");
     }
 
     // Update is called once per frame
@@ -40,6 +42,7 @@ public class RiceBallManager : MonoBehaviour, IPause
         if (_flag)
         {
             Move();
+            //_magnetObj.transform.position = transform.position;
         }
     }
     void GetItem()
@@ -70,7 +73,7 @@ public class RiceBallManager : MonoBehaviour, IPause
         Vector3 moveForward = cameraForward * Input.GetAxisRaw("Vertical") + Camera.main.transform.right * Input.GetAxisRaw("Horizontal");
         _rb.velocity = moveForward * _moveSpeed + new Vector3(0, _rb.velocity.y, 0);
     }
-    private void OnTriggerStay(Collider collision)
+    private void OnTriggerEnter(Collider collision)
     {
         //Žæ“¾‚µ‚½ƒAƒCƒeƒ€‚ÌŽí—Þ‚ðŽæ“¾‚·‚é
         if (_flag)

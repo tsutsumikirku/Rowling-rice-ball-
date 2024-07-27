@@ -10,15 +10,15 @@ public class MagnetSystem : MonoBehaviour, IPause
     // Start is called before the first frame update
     void Start()
     {
-        _ballManager = transform.parent.GetComponent<RiceBallManager>();
+        _ballManager = GameObject.Find("RiceBall").GetComponent<RiceBallManager>();
     }
 
     // Update is called once per frame
     void Update()
     {
-
+        transform.position = _ballManager.transform.position;
     }
-    private void OnTriggerExit(Collider collision)
+    private void OnTriggerStay(Collider collision)
     {
         if (_flag)
         {
