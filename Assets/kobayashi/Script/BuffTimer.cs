@@ -4,18 +4,21 @@ using UnityEngine.UI;
 public class BuffTimer : MonoBehaviour, IPause
 {
     [SerializeField, Range(1, 100)] int _buffTime;
-    float _buffTimer;
+    public float _buffTimer;
     Image _image;
     Animator _animator;
+    private void Awake()
+    {
+        _buffTimer = _buffTime * 0.01f;
+        _animator?.SetFloat("TimerSpeed", _buffTimer);
+    }
     private void Start()
     {
         _image = GetComponent<Image>();
         _animator = GetComponent<Animator>();
-        _buffTimer = _buffTime * 0.01f;
-        _animator?.SetFloat("TimerSpeed", _buffTimer);
         AnimationPlay();
     }
-    void Update()
+    private void Update()
     {
         if (_image.fillAmount<=0)
         {
