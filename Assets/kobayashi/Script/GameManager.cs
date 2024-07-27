@@ -54,13 +54,13 @@ public class GameManager : MonoBehaviour
         {
             PauseResume();
         }
-        
+
         //デバッグ用
         if (Input.GetKeyDown(KeyCode.P)) _score++;
         //この二つは同時に使う予定がありません。そのため予期せぬエラーが起きますが気にしないでください。
         //直すのは簡単
         if (Input.GetKeyDown(KeyCode.O)) ObjectStop();
-        if(Input.GetKeyDown(KeyCode.L))TimerStartOrStop();
+        if (Input.GetKeyDown(KeyCode.L)) TimerStartOrStop();
     }
     void PauseResume()//ポーズ部分 
     {
@@ -77,7 +77,7 @@ public class GameManager : MonoBehaviour
             {
                 pause.Resume();
             }
-            else if (_pauseFlg&& !_timerStop)
+            else if (_pauseFlg && !_timerStop)
             {
                 Rigidbody rb = obj.GetComponent<Rigidbody>();
                 if (obj.layer != 5 && rb != null)//velocityとそのrigidbodyをリストに格納する        layer=5とはUIが存在するレイヤーのこと
@@ -88,7 +88,7 @@ public class GameManager : MonoBehaviour
                 }
             }
         }
-        if (!_pauseFlg&&!_timerStop)
+        if (!_pauseFlg && !_timerStop)
         {
             for (int j = 0; j < _stopObject.Count; j++)//保存したvelocityを再始動させる
             {
@@ -103,7 +103,7 @@ public class GameManager : MonoBehaviour
             _stopObjectVelocity.Clear();
         }
     }
-    void TimerStartOrStop()
+    public void TimerStartOrStop()
     {
         _timerStop = !_timerStop;
     }
@@ -144,7 +144,7 @@ public class GameManager : MonoBehaviour
         foreach (var obj in i)
         {
             var pause = obj.GetComponent<IPause>();
-            if (_timerStop &&　obj.gameObject.tag!="Player"&&obj.GetComponent<BuffTimer>()==null)
+            if (_timerStop && obj.gameObject.tag != "Player" && obj.GetComponent<BuffTimer>() == null)
             {
                 pause?.Pause();
                 Rigidbody rb = obj.GetComponent<Rigidbody>();
@@ -160,7 +160,7 @@ public class GameManager : MonoBehaviour
                 pause?.Resume();
             }
         }
-        if (!_timerStop&&!_pauseFlg)
+        if (!_timerStop && !_pauseFlg)
         {
             for (int j = 0; j < _stopObject.Count; j++)//保存したvelocityを再始動させる
             {
@@ -179,9 +179,4 @@ public class GameManager : MonoBehaviour
     {
         Debug.Log("ゲーム終了");
     }
-
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> Narita
