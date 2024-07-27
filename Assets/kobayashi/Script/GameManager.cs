@@ -180,4 +180,8 @@ public class GameManager : MonoBehaviour
         Debug.Log("ƒQ[ƒ€I—¹");
     }
 
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> Narita
