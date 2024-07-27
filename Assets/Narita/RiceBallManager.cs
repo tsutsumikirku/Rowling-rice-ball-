@@ -1,7 +1,5 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using static UnityEditor.Progress;
 
 public class RiceBallManager : MonoBehaviour, IPause
 {
@@ -14,9 +12,8 @@ public class RiceBallManager : MonoBehaviour, IPause
     [SerializeField] int _defaultScaleChangeLine = 5;//デフォルトのライン
     [SerializeField] Vector3 _plusScale;　//スケールが大きくなる
     [SerializeField] string[] _itemTag;　//アイテムのタグ.1.スピアップ.2.スピダウン.3.時間停止.4.マグネット.5.米
-    [SerializeField] float _itemSpeed;　//アイテムを吸い寄せるスピード
     bool _flag = true;
-    bool _magnet;
+    public bool _magnet;
     GameManager _gameManager;
     [SerializeField] float _waitTimeTimerStop = 5;
     [SerializeField] float _waitTimeMagnet = 5;
@@ -73,32 +70,32 @@ public class RiceBallManager : MonoBehaviour, IPause
         Vector3 moveForward = cameraForward * Input.GetAxisRaw("Vertical") + Camera.main.transform.right * Input.GetAxisRaw("Horizontal");
         _rb.velocity = moveForward * _moveSpeed + new Vector3(0, _rb.velocity.y, 0);
     }
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerStay(Collider collision)
     {
         //取得したアイテムの種類を取得する
         if (_flag)
         {
-            if (collision.gameObject.tag == _itemTag[0])
+            if (collision.gameObject.tag == _itemTag[0]) //SpeedUp
             {
                 _itemType = ItemType.speedup;
                 GetItem();
             }
-            if (collision.gameObject.tag == _itemTag[1])
+            if (collision.gameObject.tag == _itemTag[1]) //SpeedDown
             {
                 _itemType = ItemType.speeddown;
                 GetItem();
             }
-            if (collision.gameObject.tag == _itemTag[2])
+            if (collision.gameObject.tag == _itemTag[2]) //TimeStop
             {
                 _itemType = ItemType.timestop;
                 GetItem();
             }
-            if (collision.gameObject.tag == _itemTag[3])
+            if (collision.gameObject.tag == _itemTag[3]) //Magnet
             {
                 _itemType = ItemType.magnet;
                 GetItem();
             }
-            if (collision.gameObject.tag == _itemTag[4])
+            if (collision.gameObject.tag == _itemTag[4]) //Rice
             {
                 _riceCount++;
                 if (_riceCount >= _scaleChangeLine)
@@ -111,18 +108,6 @@ public class RiceBallManager : MonoBehaviour, IPause
             if (collision.gameObject.tag != "Ground")
             {
                 Destroy(collision.gameObject);
-            }
-        }
-    }
-    private void OnTriggerStay(Collider collision)
-    {
-        //コライダーの中にあるアイテムを吸い寄せる
-        if (_flag)
-        {
-            if (collision.gameObject.tag != "Ground" && _magnet)
-            {
-                var rb = collision.gameObject.GetComponent<Rigidbody>();
-                rb.AddForce((transform.position - collision.transform.position) * _itemSpeed);
             }
         }
     }
