@@ -11,10 +11,10 @@ public class CameraController : MonoBehaviour
     public static float _mousesensivity = 30f;//マウス感度
     private Vector3 velocity = Vector3.zero;  // カメラ移動時の速度ベクトル
     float th;
-    float fi;
     float mousePosX;
-    float mousePosY;
     Vector3 _offset;
+    float x;
+    float z;
    //堤 伎六作シネマシンを使わずにカメラ移動
     private void Update()
     {
@@ -25,7 +25,6 @@ public class CameraController : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         mousePosX = Input.GetAxis("Mouse X");
-        mousePosY = Input.GetAxis("Mouse Y");
         if(_mousesensivity >= 0.1f)
         {
             th -= mousePosX *( _mousesensivity / 100);
@@ -34,19 +33,9 @@ public class CameraController : MonoBehaviour
         {
             th -= mousePosX;
         }
-        if (_mousesensivity >= 0.1f)
-        {
-            fi += mousePosY * (_mousesensivity / 100);
-        }
-        else
-        {
-            fi += mousePosY;
-        }
-
-        float x =_cameraradius * Mathf.Cos(th);
-        float y = _cameraradius * Mathf.Cos(fi);
-        float z =_cameraradius * Mathf.Sin(th);
-        _offset = new Vector3(x,y, z);
+         x =_cameraradius * Mathf.Cos(th);
+         z =_cameraradius * Mathf.Sin(th);
+        _offset = new Vector3(x,_camerahigh, z);
     }
     // プレイヤー移動後にカメラ移動をさせたいので、LateUpdateを使う
     void LateUpdate()
