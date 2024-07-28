@@ -17,12 +17,13 @@ public class MagnetSystem : MonoBehaviour, IPause
     void Update()
     {
         transform.position = _ballManager.transform.position;
+        transform.localScale = _ballManager.transform.localScale;
     }
     private void OnTriggerStay(Collider collision)
     {
         if (_flag)
         {
-            if (collision.gameObject.tag != "Ground" && _ballManager._magnet)
+            if (collision.gameObject.tag != "Ground" && _ballManager._magnet && collision.gameObject.tag != "Player")
             {
                 var rb = collision.gameObject.GetComponent<Rigidbody>();
                 rb.AddForce((transform.position - collision.transform.position) * _itemSpeed);
