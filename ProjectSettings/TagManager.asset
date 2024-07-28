@@ -9,6 +9,7 @@ TagManager:
   - SpeedUp
   - SpeedDown
   - Magnet
+  - MagnetArea
   layers:
   - Default
   - TransparentFX
