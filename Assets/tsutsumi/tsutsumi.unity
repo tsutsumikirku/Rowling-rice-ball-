@@ -596,7 +596,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 3d41c123bb3e1384f87fcb0df136e57f, type: 2}
+  - {fileID: 2100000, guid: 759e7ec91beb7534180e7eae9268b2c6, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -633,10 +633,11 @@ MonoBehaviour:
   _moveSpeed: 5
   _speedUp: 0
   _speedDown: 0
-  _riceCount: 0
+  _defaultScaleChangeLine: 5
   _scaleChangeLine: 5
   _plusScale: {x: 0, y: 0, z: 0}
   _itemTag: []
+  _itemSpeed: 0
 --- !u!33 &998031716
 MeshFilter:
   m_ObjectHideFlags: 0
