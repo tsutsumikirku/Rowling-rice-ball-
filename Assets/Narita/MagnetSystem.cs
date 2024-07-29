@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class MagnetSystem : MonoBehaviour, IPause
 {
-    bool _flag = true;
+    bool _isFlag = true;
     RiceBallManager _ballManager;
     [SerializeField] float _itemSpeed;
     // Start is called before the first frame update
@@ -21,9 +21,9 @@ public class MagnetSystem : MonoBehaviour, IPause
     }
     private void OnTriggerStay(Collider collision)
     {
-        if (_flag)
+        if (_isFlag)
         {
-            if (collision.gameObject.tag != "Ground" && _ballManager._magnet && collision.gameObject.tag != "Player")
+            if (collision.gameObject.tag != "Ground" && _ballManager._isMagnet && collision.gameObject.tag != "Player")
             {
                 var rb = collision.gameObject.GetComponent<Rigidbody>();
                 rb.AddForce((transform.position - collision.transform.position) * _itemSpeed);
@@ -33,11 +33,11 @@ public class MagnetSystem : MonoBehaviour, IPause
 
     public void Pause()
     {
-        _flag = false;
+        _isFlag = false;
     }
 
     public void Resume()
     {
-        _flag = true;
+        _isFlag = true;
     }
 }

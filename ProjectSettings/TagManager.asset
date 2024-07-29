@@ -10,6 +10,7 @@ TagManager:
   - SpeedDown
   - Magnet
   - MagnetArea
+  - TimeStop
   layers:
   - Default
   - TransparentFX

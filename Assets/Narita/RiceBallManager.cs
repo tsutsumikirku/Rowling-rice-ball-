@@ -4,7 +4,8 @@ using UnityEngine;
 public class RiceBallManager : MonoBehaviour, IPause
 {
     Rigidbody _rb;
-    [SerializeField] float _moveSpeed; //スピード
+    [SerializeField] float _defaultMoveSpeed;  //スピード
+    float _moveSpeed;
     [SerializeField] float _speedUp;　//スピードアップ
     [SerializeField] float _speedDown;　//スピードダウン
     public static int _riceCount; //米を拾うたびに増えるカウント
@@ -12,12 +13,10 @@ public class RiceBallManager : MonoBehaviour, IPause
     [SerializeField] int _defaultScaleChangeLine = 5;//デフォルトのライン
     [SerializeField] Vector3 _plusScale;　//スケールが大きくなる
     [SerializeField] string[] _itemTag;　//アイテムのタグ.1.スピアップ.2.スピダウン.3.時間停止.4.マグネット.5.米
-    bool _flag = true;
-    public bool _magnet;
+    bool _isFlag = true;
+    public bool _isMagnet;
     GameManager _gameManager;
-    [SerializeField] float _waitTimeTimerStop = 5;
-    [SerializeField] float _waitTimeMagnet = 5;
-    GameObject _magnetObj;
+    [SerializeField,Header("1,SpeedUp 2,SpeedDown 3,TimeStop 4,Magnet \nのWaitForSecondsの値")] float[] _waitTimes;
     ItemType _itemType;
     enum ItemType
     {
@@ -33,13 +32,14 @@ public class RiceBallManager : MonoBehaviour, IPause
         _rb = GetComponent<Rigidbody>();
         _scaleChangeLine = _defaultScaleChangeLine;
         _gameManager = FindObjectOfType<GameManager>();
-        _magnetObj = GameObject.Find("MagnetArea");
+        _moveSpeed = _defaultMoveSpeed;
+        _isMagnet = false;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (_flag)
+        if (_isFlag)
         {
             Move();
             //_magnetObj.transform.position = transform.position;
@@ -51,13 +51,15 @@ public class RiceBallManager : MonoBehaviour, IPause
         switch (_itemType)
         {
             case ItemType.speedup:
-                _moveSpeed += _speedUp;
+                _moveSpeed = _moveSpeed * _speedUp;
+                StartCoroutine(StartSpeedUp());
                 break;
             case ItemType.speeddown:
-                _moveSpeed -= _speedDown;
+                _moveSpeed = _moveSpeed * _speedDown;
+                StartCoroutine(StartSpeedDown());
                 break;
             case ItemType.magnet:
-                _magnet = true;
+                _isMagnet = true;
                 StartCoroutine(StartMagnet());
                 break;
             case ItemType.timestop:
@@ -76,7 +78,7 @@ public class RiceBallManager : MonoBehaviour, IPause
     private void OnTriggerEnter(Collider collision)
     {
         //取得したアイテムの種類を取得する
-        if (_flag)
+        if (_isFlag)
         {
             if (collision.gameObject.tag == _itemTag[0]) //SpeedUp
             {
@@ -117,21 +119,31 @@ public class RiceBallManager : MonoBehaviour, IPause
 
     public void Pause()
     {
-        _flag = false;
+        _isFlag = false;
     }
 
     public void Resume()
     {
-        _flag = true;
+        _isFlag = true;
+    }
+    IEnumerator StartSpeedUp()
+    {
+        yield return new WaitForSeconds(_waitTimes[0]);
+        _moveSpeed = _defaultMoveSpeed;
+    }
+    IEnumerator StartSpeedDown()
+    {
+        yield return new WaitForSeconds(_waitTimes[1]);
+        _moveSpeed = _defaultMoveSpeed;
     }
     IEnumerator StartTimerStartOrStop()
     {
-        yield return new WaitForSeconds(_waitTimeTimerStop);
+        yield return new WaitForSeconds(_waitTimes[2]);
         _gameManager.TimerStartOrStop();
     }
     IEnumerator StartMagnet()
     {
-        yield return new WaitForSeconds(_waitTimeMagnet);
-        _magnet = false;
+        yield return new WaitForSeconds(_waitTimes[3]);
+        _isMagnet = false;
     }
 }
