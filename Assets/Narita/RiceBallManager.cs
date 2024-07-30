@@ -107,6 +107,7 @@ public class RiceBallManager : MonoBehaviour, IPause
             {
                 _riceCount++;
                 _riceScore += _score;
+                Debug.Log(_riceScore);
                 if (_riceCount >= _scaleChangeLine)
                 {
                     transform.localScale += _plusScale;
