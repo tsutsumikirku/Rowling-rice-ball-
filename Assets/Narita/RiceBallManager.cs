@@ -16,6 +16,8 @@ public class RiceBallManager : MonoBehaviour, IPause
     bool _isFlag = true;
     public bool _isMagnet;
     GameManager _gameManager;
+    [SerializeField] int _score;
+    public static int _riceScore;
     [SerializeField,Header("1,SpeedUp 2,SpeedDown 3,TimeStop 4,Magnet \n‚ÌWaitForSeconds‚Ì’l")] float[] _waitTimes;
     ItemType _itemType;
     enum ItemType
@@ -34,6 +36,7 @@ public class RiceBallManager : MonoBehaviour, IPause
         _gameManager = FindObjectOfType<GameManager>();
         _moveSpeed = _defaultMoveSpeed;
         _isMagnet = false;
+        _riceScore = 0;
     }
 
     // Update is called once per frame
@@ -103,6 +106,7 @@ public class RiceBallManager : MonoBehaviour, IPause
             if (collision.gameObject.tag == _itemTag[4]) //Rice
             {
                 _riceCount++;
+                _riceScore += _score;
                 if (_riceCount >= _scaleChangeLine)
                 {
                     transform.localScale += _plusScale;
