@@ -57,11 +57,13 @@ public class RiceBallManager : MonoBehaviour, IPause
         switch (_itemType)
         {
             case ItemType.speedup:
-                _moveSpeed = _moveSpeed * _speedUp;
+                var speedup = _defaultMoveSpeed * _speedUp;
+                _moveSpeed = speedup;
                 StartCoroutine(StartSpeedUp());
                 break;
             case ItemType.speeddown:
-                _moveSpeed = _moveSpeed * _speedDown;
+                var speeddown = _defaultMoveSpeed * _speedDown;
+                _moveSpeed = speeddown;
                 StartCoroutine(StartSpeedDown());
                 break;
             case ItemType.magnet:
