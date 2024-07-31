@@ -45,7 +45,10 @@ public class RiceBallManager : MonoBehaviour, IPause
         if (_isFlag)
         {
             Move();
-            //_magnetObj.transform.position = transform.position;
+        }
+        else
+        {
+            _rb.velocity = Vector3.zero;
         }
     }
     void GetItem()
