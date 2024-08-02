@@ -931,7 +931,7 @@ MonoBehaviour:
   _defaultMoveSpeed: 5
   _speedUp: 10
   _speedDown: 0.5
-  _defaultScaleChangeLine: 5
+  _defaultScaleChangeLine: 0
   _plusScale: {x: 0.5, y: 0.5, z: 0.5}
   _itemTag:
   - SpeedUp
@@ -946,6 +946,7 @@ MonoBehaviour:
   - 5
   - 5
   - 10
+  _plusCameraRadius: 1
 --- !u!135 &1348624647
 SphereCollider:
   m_ObjectHideFlags: 0

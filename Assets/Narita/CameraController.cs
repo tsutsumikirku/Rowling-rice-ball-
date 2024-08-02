@@ -4,7 +4,7 @@ public class CameraController : MonoBehaviour
 {
     [SerializeField] Transform _player;  // プレイヤーのTransform
     [SerializeField] float _smoothTime = 0f;  // カメラがプレイヤーを追跡する際のスムーズさの調整用パラメータ
-    [SerializeField] float _cameraradius = 20f;//カメラの回転する半径
+    public float _cameraradius = 20f;//カメラの回転する半径
     [SerializeField] float _camerahigh;//カメラの高さ
     [SerializeField] Text _testtext;
     [SerializeField] bool _test;
@@ -15,27 +15,27 @@ public class CameraController : MonoBehaviour
     Vector3 _offset;
     float x;
     float z;
-   //堤 伎六作シネマシンを使わずにカメラ移動
+    //堤 伎六作シネマシンを使わずにカメラ移動
     private void Update()
     {
-        if(_testtext && _test)
+        if (_testtext && _test)
         {
             _testtext.text = _mousesensivity.ToString();
         }
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         mousePosX = Input.GetAxis("Mouse X");
-        if(_mousesensivity >= 0.1f)
+        if (_mousesensivity >= 0.1f)
         {
-            th -= mousePosX *( _mousesensivity / 100);
+            th -= mousePosX * (_mousesensivity / 100);
         }
         else
         {
             th -= mousePosX;
         }
-         x =_cameraradius * Mathf.Cos(th);
-         z =_cameraradius * Mathf.Sin(th);
-        _offset = new Vector3(x,_camerahigh, z);
+        x = _cameraradius * Mathf.Cos(th);
+        z = _cameraradius * Mathf.Sin(th);
+        _offset = new Vector3(x, _camerahigh, z);
     }
     // プレイヤー移動後にカメラ移動をさせたいので、LateUpdateを使う
     void LateUpdate()

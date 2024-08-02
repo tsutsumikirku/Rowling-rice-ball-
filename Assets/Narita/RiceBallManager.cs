@@ -18,7 +18,9 @@ public class RiceBallManager : MonoBehaviour, IPause
     GameManager _gameManager;
     [SerializeField] int _score;
     public static int _riceScore;
-    [SerializeField,Header("1,SpeedUp 2,SpeedDown 3,TimeStop 4,Magnet \n‚ÌWaitForSeconds‚Ì’l")] float[] _waitTimes;
+    [SerializeField, Header("1,SpeedUp 2,SpeedDown 3,TimeStop 4,Magnet \n‚ÌWaitForSeconds‚Ì’l")] float[] _waitTimes;
+    [SerializeField] float _plusCameraRadius;
+    CameraController _cameraController;
     ItemType _itemType;
     enum ItemType
     {
@@ -34,6 +36,7 @@ public class RiceBallManager : MonoBehaviour, IPause
         _rb = GetComponent<Rigidbody>();
         _scaleChangeLine = _defaultScaleChangeLine;
         _gameManager = FindObjectOfType<GameManager>();
+        _cameraController = FindObjectOfType<CameraController>();
         _moveSpeed = _defaultMoveSpeed;
         _isMagnet = false;
         _riceScore = 0;
@@ -117,6 +120,7 @@ public class RiceBallManager : MonoBehaviour, IPause
                 {
                     transform.localScale += _plusScale;
                     _scaleChangeLine += _defaultScaleChangeLine;
+                    _cameraController._cameraradius += _plusCameraRadius;
                     Debug.Log(_scaleChangeLine);
                 }
             }
