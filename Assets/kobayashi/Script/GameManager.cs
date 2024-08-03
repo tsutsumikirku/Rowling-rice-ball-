@@ -8,11 +8,12 @@ public class GameManager : MonoBehaviour
     [HideInInspector] public static int _score;
     [SerializeField, Tooltip("ゲーム開始時のカウントダウンに使うText。nullの場合、カウントダウンがなくなります")]
     Text _startTimerText;
+    [SerializeField] GameObject _optionsUiPanel;
     [SerializeField] Text _scoreText;
     [SerializeField] Text _timerText;
-    [SerializeField, Header("非表示にしたいものを入れてください")] GameObject[] _hideObjectAry;
+    [SerializeField, Header("カウントダウン中、非表示にしたいものを入れてください")] GameObject[] _hideObjectAry;
     [SerializeField] float _timeLimit;
-    [SerializeField] int _startTimer;
+    [SerializeField] int _startCountDownTimer;
     [SerializeField] string _resultScene;
     List<Vector3> _stopObjectVelocity = new List<Vector3>();
     List<Rigidbody> _stopObject = new List<Rigidbody>();
@@ -26,8 +27,9 @@ public class GameManager : MonoBehaviour
         _score = 0;
         if (_startTimerText != null)
         {
-            StartCoroutine(StartCount(_startTimer));
+            StartCoroutine(StartCount(_startCountDownTimer));
         }
+        _optionsUiPanel.SetActive(false);
     }
     private void Update()
     {
@@ -36,7 +38,7 @@ public class GameManager : MonoBehaviour
             //スコアの反映
             if (!_timerStop)
             {
-                _scoreText.text = $"スコア：{_score}";
+                if(_scoreText!=null)_scoreText.text = $"スコア：{RiceBallManager._riceCount}";
                 //タイマー機能
                 if (Mathf.Floor(_timer) <= 0)
                 {
@@ -44,15 +46,19 @@ public class GameManager : MonoBehaviour
                 }
                 else
                 {
-                    _timer -= Time.deltaTime;
-                    _timerText.text = "残り時間：" + Mathf.Floor(_timer).ToString();
+                    if (_timerText != null)
+                    {
+                        _timer -= Time.deltaTime;
+                        _timerText.text = "残り時間：" + Mathf.Floor(_timer).ToString();
+                    }
                 }
             }
         }
         //ポーズの呼び出し
         if (Input.GetKeyDown(KeyCode.Escape) && _inGame)
         {
-            PauseResume();
+            PauseResume(); 
+            if (_optionsUiPanel != null) _optionsUiPanel.SetActive(_pauseFlg);//_optionsUiPanel?.としたかったが、なぜかできなかった。
         }
 
         //デバッグ用
